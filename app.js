@@ -1,10 +1,10 @@
 var express = require('express');
 var static = require('serve-static');
 var path = require('path')
-var router = require('./router/main');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var fs = require("fs")
+var mainRouter = require('./routes/mainRouter')
 
 // express 객체 선언
 var app = express();
@@ -30,13 +30,13 @@ app.use(function (req, res, next) {
   // var paramName = req.query.name;
 
   // get요청과 post요청을 모두 고려
-  var paramId = req.body.id || req.query.id;
-  var paramPassword = req.body.password || req.query.password;
+  // var paramId = req.body.id || req.query.id;
+  // var paramPassword = req.body.password || req.query.password;
 
-  res.writeHead('200', { 'Content-Type': 'text/html;charset=utf8' });
-  res.write('<h1>응답을 받아랏</h1>')
-  res.write('<div>user Agent : ' + paramId + '</div>')
-  res.write('<div>Param Name : ' + paramPassword + '</div>')
+  // res.writeHead('200', { 'Content-Type': 'text/html;charset=utf8' });
+  // res.write('<h1>응답을 받아랏</h1>')
+  // res.write('<div>user Agent : ' + paramId + '</div>')
+  // res.write('<div>Param Name : ' + paramPassword + '</div>')
 
   // 처리 순서 넘겨주기
   next();
@@ -53,14 +53,14 @@ app.use(function (req, res, next) {
   // 요러케 하면 json을 데이터를 보냄
   //todo 요청객체, 응답객체 정리
   // res.send({ name: 'max', age: 20 })
-
-  res.end();
+  next();
 })
 
 // 로컬호스트 포트 지정
 // set으로 express 객체(app) 안에 설정한 속성은 get으로 뽑아서 쓸 수 이따
 //todo 메소드 정리
 
+app.use('/', mainRouter);
 
 // 서버 실행
 var server = app.listen(app.get('port'), function () {
