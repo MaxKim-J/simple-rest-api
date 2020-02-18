@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/MaxKim-J/simple-rest-api#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "ejs": "^3.0.1",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-session": "^1.17.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
