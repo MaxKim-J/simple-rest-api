@@ -7,10 +7,12 @@ var expressErrorHandler = require('express-error-handler');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
+
 var cors = require('cors');
 
 // 라우터
 var mainRouter = require('./routes/mainRouter')
+var photoRouter = require('./routes/photoRouter')
 
 // express 객체 선언
 var app = express();
@@ -65,9 +67,12 @@ app.use(function (req, res, next) {
   next();
 })
 
-// 미들웨어 #2 - 로컬호스트 url로 요청왔을때의 응답
+// 미들웨어 #2 - 파일 업로드로직
 app.use(function (req, res, next) {
-  console.log('두번째 미들웨어에서 요청을 처리함');
+  console.log('두번째 미들웨어에서 파일 업로드를 처리함');
+  if (req.files) {
+    console.log(req.files)
+  }
 
   // 보낼 데이터 명시하고 end로 미들웨어 끝내주면서 응답 보내기
   // res.writeHead('200', { 'Content-Type': 'text/html;charset=utf8' });
@@ -85,6 +90,7 @@ app.use(function (req, res, next) {
 
 // 라우터 맵핑
 app.use('/', mainRouter);
+app.use('/photo', photoRouter);
 
 // 라우터 오류 응답
 // app.all('*', function (req, res) {
