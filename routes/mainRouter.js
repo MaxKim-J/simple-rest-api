@@ -18,6 +18,18 @@ router.route('/process/login/:name').post(function (req, res) {
   res.write('<div>Param id : ' + paramId + '</div>');
   res.write('<div>Param password : ' + paramPassword + '</div>');
   res.write("<div><a href= '/public/html/login.html'>로그인 페이지로 돌아가기</a></div>");
+
+  // 요청에 적용하고 싶은 미들웨어가 모두 끝났을 때 end는 작동해야함 
   res.end();
 });
+
+router.route('/:id').get(function (req, res) {
+  console.log("토큰값 붙여서 요청 처리!")
+  var paramId = req.params.id;
+
+  res.writeHead('200', { 'Content-Type': 'text/html;charset=utf8' });
+  res.write('<h1>토큰을 처리한다!</h1>');
+  res.write('<div> paramId : ' + paramId + '</div>');
+  res.end();
+})
 module.exports = router;

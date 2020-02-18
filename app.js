@@ -2,8 +2,11 @@ var express = require('express');
 var static = require('serve-static');
 var path = require('path')
 var bodyParser = require('body-parser');
+var expressErrorHandler = require('express-error-handler');
 var session = require('express-session');
 var fs = require("fs")
+
+
 var mainRouter = require('./routes/mainRouter')
 
 // express 객체 선언
@@ -60,7 +63,23 @@ app.use(function (req, res, next) {
 // set으로 express 객체(app) 안에 설정한 속성은 get으로 뽑아서 쓸 수 이따
 //todo 메소드 정리
 
+// 라우터 맵핑
 app.use('/', mainRouter);
+
+// 라우터 오류 응답
+// app.all('*', function (req, res) {
+//   res.status(404).send("<h1>페이지를 찾을 수 없다능!</h1>");
+// })
+
+// express-error-handler사용해 404상황일때 오류 페이지 처리
+var errorHandler = expressErrorHandler({
+  static: {
+    '404': './public/html/404.html'
+  }
+});
+
+app.use(expressErrorHandler.httpError(404));
+app.use(errorHandler);
 
 // 서버 실행
 var server = app.listen(app.get('port'), function () {
