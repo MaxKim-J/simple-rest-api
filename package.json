@@ -1,0 +1,26 @@
+{
+  "name": "simple-rest-api",
+  "version": "1.0.0",
+  "description": "simple rest api with express.js",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaxKim-J/simple-rest-api.git"
+  },
+  "author": "max kim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MaxKim-J/simple-rest-api/issues"
+  },
+  "homepage": "https://github.com/MaxKim-J/simple-rest-api#readme",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
