@@ -3,6 +3,7 @@ var static = require('serve-static');
 var path = require('path')
 var bodyParser = require('body-parser');
 var expressErrorHandler = require('express-error-handler');
+var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var fs = require("fs")
 
@@ -14,6 +15,19 @@ var app = express();
 
 // 포트 설정 
 app.set('port', process.env.PORT || 3000)
+
+// 쿠키는 클라이언트 웹 브라우저에 저장되는 정보
+// 일정 기간동안 저장하고 싶을 때 사용
+app.use(cookieParser());
+
+// 세션도 상태 정보를 저장하는 역할을 하지만 쿠키와 달리 서버쪽에 저장
+// 사용자가 로그인을 할때 세션이 만들어지고, 로그아웃하면 세션이 삭제되는 기능을 만들면
+// 사용자가 로그인 하기 전에는 접근이 제한된 페이지를 보지 못하도록 설정할 수 있음
+app.use(session({
+  secret: "3@#!$4234#@4234",
+  resave: true,
+  saveUninitialized: true
+}))
 
 //body-parser은 post요청이 들어왔을 때의 본문을 파싱할 수 있게 해줌
 // json, 혹은 form-urlencoded로 왔든 파싱 가능하게
