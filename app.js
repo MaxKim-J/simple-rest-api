@@ -5,9 +5,9 @@ var app = express();
 
 // 라우터 적용
 app.use('/', router);
-
 // ejs엔진 적용
 app.set('views', __dirname + '/views');
+app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 // ejs로 렌더링할것!
