@@ -1,3 +1,4 @@
+// 모듈들 
 var express = require('express');
 var static = require('serve-static');
 var path = require('path')
@@ -5,9 +6,10 @@ var bodyParser = require('body-parser');
 var expressErrorHandler = require('express-error-handler');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-var fs = require("fs")
 
+var cors = require('cors');
 
+// 라우터
 var mainRouter = require('./routes/mainRouter')
 
 // express 객체 선언
@@ -15,6 +17,16 @@ var app = express();
 
 // 포트 설정 
 app.set('port', process.env.PORT || 3000)
+
+//body-parser은 post요청이 들어왔을 때의 본문을 파싱할 수 있게 해줌
+// json, 혹은 form-urlencoded로 왔든 파싱 가능하게
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// public 폴더에 있는 모든 파일을 웹 서버의 루트 패스로 접근할 수 있도록 만들기
+// 이렇게 use에다가 첫번째 파라미터로 요청 패스를 지정했으며, 두번째 파라미터 static함수로 특정 폴더 지정(매핑)
+app.use('/public', static(path.join(__dirname, 'public')));
+app.use('/uploads', static(path.join(__dirname, 'uploads')));
 
 // 쿠키는 클라이언트 웹 브라우저에 저장되는 정보
 // 일정 기간동안 저장하고 싶을 때 사용
@@ -29,14 +41,8 @@ app.use(session({
   saveUninitialized: true
 }))
 
-//body-parser은 post요청이 들어왔을 때의 본문을 파싱할 수 있게 해줌
-// json, 혹은 form-urlencoded로 왔든 파싱 가능하게
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-// public 폴더에 있는 모든 파일을 웹 서버의 루트 패스로 접근할 수 있도록 만들기
-// 이렇게 use에다가 첫번째 파라미터로 요청 패스를 지정했으며, 두번째 파라미터 static함수로 특정 폴더 지정(매핑)
-app.use('/public', static(path.join(__dirname, 'public')));
+// 클라이언트에서 ajax로 요청했을 때 cors(다중서버접속) 지원
+app.use(cors());
 
 // 미들웨어 #1 - 로컬호스트 url로 요청왔을때의 응답
 app.use(function (req, res, next) {
